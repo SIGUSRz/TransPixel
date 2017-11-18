@@ -20,7 +20,7 @@ public class PreviewActivity extends BaseActivity {
         imagePath = getIntent().getStringExtra("imagePath");
         ImageView preview = findViewById(R.id.drawer_layout)
                 .findViewById(R.id.preview_appbar)
-                .findViewById(R.id.preview_layout)
+                .findViewById(R.id.preview_content)
                 .findViewById(R.id.imagePreview);
         if (imagePath != null) {
             preview.setImageBitmap(BitmapFactory.decodeFile(imagePath));

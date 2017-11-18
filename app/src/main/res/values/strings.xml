@@ -12,4 +12,10 @@
     <string name="preview_description">Image Preview</string>
     <string name="detect_button">Detect Picture</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="hint_username">Username:</string>
+    <string name="hint_password">Password:</string>
+    <string name="btn_login">Sign In</string>
+    <string name="btn_link_signup">Sign Up</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="hint_email">Email:</string>
 </resources>

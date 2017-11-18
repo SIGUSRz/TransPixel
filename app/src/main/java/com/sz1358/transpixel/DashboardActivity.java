@@ -79,7 +79,6 @@ public class DashboardActivity extends BaseActivity {
             case ACTIVITY_CALL_GALLERY: {
                 if (resultCode == RESULT_OK) {
                     Intent intent = new Intent(DashboardActivity.this, PreviewActivity.class);
-//                    String path = getAbsolutePath(this, imgURI);
                     intent.putExtra("imageUri", data.getDataString());
                     startActivity(intent);
                     finish();

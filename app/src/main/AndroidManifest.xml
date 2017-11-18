@@ -36,6 +36,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".PreviewActivity" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".DashboardActivity"
+            android:theme="@style/Theme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sz1358.transpixel.DashboardActivity" />
+        </activity>
+        <activity
+            android:name=".RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/Theme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.sz1358.transpixel.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>

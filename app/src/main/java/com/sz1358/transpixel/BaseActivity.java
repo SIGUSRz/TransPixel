@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.RemoteInput;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,15 +110,19 @@ public class BaseActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_dashboard:
-                Intent dashboard_intent = new Intent(BaseActivity.this, DashboardActivity.class);
-                startActivity(dashboard_intent);
+                Intent dashboardIntent = new Intent(BaseActivity.this, DashboardActivity.class);
+                startActivity(dashboardIntent);
                 finish();
                 break;
-//            case R.id.nav_login:
-//                Intent login_intent = new Intent(BaseActivity.this, PreviewActivity.class);
-//                startActivity(login_intent);
-//                finish();
-//                break;
+            case R.id.nav_login:
+                if (SharedPrefManager.getInstance(this).isLogged()) {
+                    Toast.makeText(getApplicationContext(),
+                            "You've logged in", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent loginIntent = new Intent(BaseActivity.this, LoginActivity.class);
+                    startActivity(loginIntent);
+                }
+                break;
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
