@@ -5,4 +5,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="nav_item_dashboard">Dashboard</string>
+    <string name="nav_item_login">Login</string>
 </resources>
