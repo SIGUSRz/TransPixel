@@ -18,4 +18,9 @@
     <string name="btn_link_signup">Sign Up</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="hint_email">Email:</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="empty_filler" />
+    <string name="hint_id">ID:</string>
+    <string name="btn_logout">Log Out</string>
+    <string name="nav_item_profile">Profile:</string>
 </resources>

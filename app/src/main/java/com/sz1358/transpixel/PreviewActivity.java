@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
 import android.widget.ImageView;
 import java.io.IOException;
 
