@@ -99,7 +99,7 @@
                 android:id="@+id/profile_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/empty_filler"
+                android:text=""
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
         </TableRow>
 
@@ -116,7 +116,7 @@
                 android:id="@+id/profile_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/empty_filler"
+                android:text=""
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
         </TableRow>
 
@@ -133,8 +133,23 @@
                 android:id="@+id/profile_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/empty_filler"
+                android:text=""
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="@string/hint_locale"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+            <Spinner
+                android:id="@+id/locale_spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
         </TableRow>
     </TableLayout>
 
