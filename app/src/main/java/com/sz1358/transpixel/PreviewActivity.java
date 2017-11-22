@@ -4,7 +4,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Menu;
 import android.widget.ImageView;
 import java.io.IOException;
 
@@ -16,7 +15,7 @@ public class PreviewActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        super.addContentView(R.layout.activity_preview);
+        super.addContentView(R.layout.activity_preview, -1);
 
         imagePath = getIntent().getStringExtra("imagePath");
         ImageView preview = findViewById(R.id.drawer_layout)

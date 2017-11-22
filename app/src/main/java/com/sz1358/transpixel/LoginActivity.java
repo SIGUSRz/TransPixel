@@ -33,25 +33,10 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.showHome) {
-            System.out.println("hey");
-            this.finish();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void showRegister(View view) {
         if (SharedPrefManager.getInstance(this).isLogged()) {
-            Toast.makeText(getApplicationContext(), "You've Logged In", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "You've Logged In",
+                    Toast.LENGTH_SHORT).show();
         } else {
             Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(registerIntent);
@@ -84,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void requestLogin(View view) {
         if (SharedPrefManager.getInstance(this).isLogged()) {
-            Toast.makeText(getApplicationContext(), "You've Logged In", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "You've Logged In",
+                    Toast.LENGTH_SHORT).show();
         } else {
             String[] info = returnInfo();
             if (info != null) {

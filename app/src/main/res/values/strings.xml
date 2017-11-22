@@ -22,5 +22,6 @@
     <string name="empty_filler" />
     <string name="hint_id">ID:</string>
     <string name="btn_logout">Log Out</string>
-    <string name="nav_item_profile">Profile:</string>
+    <string name="nav_item_profile">Profile</string>
+    <string name="nav_header_name">Hello Guest!</string>
 </resources>

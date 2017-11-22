@@ -12,6 +12,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,9 +20,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +34,6 @@ public class BaseActivity extends AppCompatActivity
 
     DrawerLayout drawer;
     NavigationView navigationView;
-    Toolbar toolbar = null;
     public static final int ACTIVITY_CALL_CAMERA = 100;
     public static final int ACTIVITY_CALL_GALLERY = 101;
     public static final int PERMISSION_REQUEST = 1;
@@ -62,7 +64,44 @@ public class BaseActivity extends AppCompatActivity
         getPermission();
     }
 
-    public void addContentView(int layoutId) {
+    public void addContentView(int layoutId, int currentItem) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView header_name = header.findViewById(R.id.userName);
+        TextView header_email = header.findViewById(R.id.userEmail);
+
+        Menu menu = navigationView.getMenu();
+        int[] restrictItems = {R.id.nav_profile};
+        int[] freeItems = {R.id.nav_login};
+
+        if (SharedPrefManager.getInstance(this).isLogged()) {
+            User user = SharedPrefManager.getInstance(this).getLoggedUser();
+
+            header_name.setText(user.getUsername());
+            header_email.setText(user.getEmail());
+
+            for (int item : restrictItems) {
+                menu.findItem(item).setVisible(true);
+            }
+            for (int item : freeItems) {
+                menu.findItem(item).setVisible(false);
+            }
+        } else {
+            header_name.setText(R.string.nav_header_name);
+            header_email.setText("");
+
+            for (int item : freeItems) {
+                menu.findItem(item).setVisible(true);
+            }
+            for (int item : restrictItems) {
+                menu.findItem(item).setVisible(false);
+            }
+        }
+        if (currentItem != -1) {
+            menu.findItem(currentItem).setVisible(false);
+        }
+        navigationView.setNavigationItemSelectedListener(this);
+
         LayoutInflater inflater = (LayoutInflater)
                 this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(layoutId, null, false);
@@ -76,6 +115,7 @@ public class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            System.out.println("hey");
         }
     }
 
@@ -101,7 +141,7 @@ public class BaseActivity extends AppCompatActivity
                 }
                 break;
             case R.id.nav_profile:
-                if (SharedPrefManager.getInstance(this).isLogged()) {
+                if (!SharedPrefManager.getInstance(this).isLogged()) {
                     Intent loginIntent = new Intent(BaseActivity.this, LoginActivity.class);
                     startActivity(loginIntent);
                 } else {

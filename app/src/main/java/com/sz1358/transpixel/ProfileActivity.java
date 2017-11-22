@@ -1,18 +1,37 @@
 package com.sz1358.transpixel;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 public class ProfileActivity extends BaseActivity {
+
+    TextView idView, usernameView, emailView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.addContentView(R.layout.activity_profile);
+        super.addContentView(R.layout.activity_profile, R.id.nav_profile);
+
+        View view = findViewById(R.id.drawer_layout)
+                .findViewById(R.id.register_content);
+        idView = view.findViewById(R.id.profile_id);
+        usernameView = view.findViewById(R.id.profile_username);
+        emailView = view.findViewById(R.id.profile_email);
+
+        User user = SharedPrefManager.getInstance(this).getLoggedUser();
+        idView.setText(String.valueOf(user.getId()));
+        usernameView.setText(user.getUsername());
+        emailView.setText(user.getEmail());
+    }
+
+    public void requestLogout(View view) {
+        if (SharedPrefManager.getInstance(this).isLogged()) {
+            SharedPrefManager.getInstance(this).logout();
+            Intent dashboardIntent = new Intent(ProfileActivity.this, DashboardActivity.class);
+            startActivity(dashboardIntent);
+            finish();
+        }
     }
 }

@@ -1,26 +1,17 @@
 package com.sz1358.transpixel;
 
-import android.content.ClipData;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -32,7 +23,7 @@ public class DashboardActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.addContentView(R.layout.activity_dashboard);
+        super.addContentView(R.layout.activity_dashboard, R.id.nav_dashboard);
     }
 
     // DashboardFragment button handler
@@ -46,13 +37,15 @@ public class DashboardActivity extends BaseActivity {
                         .format(new Date());
                 String fileName = "IMAGE_" + timeStamp + ".jpg";
                 values.put(MediaStore.Images.Media.TITLE, fileName);
-                File output = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                File output = Environment
+                        .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 imgFile = new File(output, fileName);
             } else {
                 Toast.makeText(this, "File Write Permission Denied", Toast.LENGTH_SHORT).show();
             }
             if (imgFile != null && CLEAR_PERMISSION) {
-                imgURI = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+                imgURI = getContentResolver()
+                        .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imgURI);
                 startActivityForResult(takePictureIntent, ACTIVITY_CALL_CAMERA);
             } else {
@@ -64,7 +57,8 @@ public class DashboardActivity extends BaseActivity {
     public void loadPhoto(View view) {
         Intent pickIntent = new Intent(Intent.ACTION_GET_CONTENT);
         pickIntent.setType("image/*");
-        startActivityForResult(Intent.createChooser(pickIntent, "select picture"), ACTIVITY_CALL_GALLERY);
+        startActivityForResult(Intent.createChooser(pickIntent, "select picture"),
+                ACTIVITY_CALL_GALLERY);
     }
 
     @Override
@@ -94,6 +88,7 @@ public class DashboardActivity extends BaseActivity {
         }
     }
 
+    // Return Absolute Path of the Image File
     public String getAbsolutePath(Context context, Uri uri) {
         String[] projection = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
