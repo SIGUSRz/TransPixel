@@ -34,4 +34,8 @@
         <item>Chinese</item>
         <item>Spanish</item>
     </string-array>
+
+    <item name="visible" type="id"/>
+    <item name="masked" type="id"/>
+
 </resources>

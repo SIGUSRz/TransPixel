@@ -7,7 +7,10 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -25,30 +28,44 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     EditText registUsername, registEmail, registPassword;
+    String language;
+    int langIdx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        View view = findViewById(R.id.register_layout)
+                .findViewById(R.id.register_content);
+
+        Spinner spinner = view.findViewById(R.id.locale_spinner);
+        if (spinner != null) {
+            createSpinner(spinner);
+        }
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.showHome) {
-            System.out.println("hey");
-            this.finish();
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void createSpinner(final Spinner spinner) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.locale_array, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                language = parent.getItemAtPosition(position) + "";
+                langIdx = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                spinner.setSelection(0);
+                language = parent.getItemAtPosition(0) + "";
+                langIdx = 0;
+            }
+        });
     }
 
     public String[] returnInfo() {
@@ -85,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
             return null;
         }
 
-        return new String[]{username, email, password};
+        return new String[]{username, email, password, Integer.toString(langIdx)};
     }
 
     public void requestRegister(View view) {
@@ -97,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
                 final String username = info[0];
                 final String email = info[1];
                 final String password = info[2];
+                final String lang = info[3];
                 StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_REGISTER,
                         new Response.Listener<String>() {
                             @Override
@@ -110,7 +128,8 @@ public class RegisterActivity extends AppCompatActivity {
                                         User user = new User(
                                                 userInfo.getInt("id"),
                                                 userInfo.getString("username"),
-                                                userInfo.getString("email")
+                                                userInfo.getString("email"),
+                                                userInfo.getInt("lang")
                                         );
 
                                         SharedPrefManager.
@@ -149,6 +168,7 @@ public class RegisterActivity extends AppCompatActivity {
                         params.put("username", username);
                         params.put("email", email);
                         params.put("password", password);
+                        params.put("lang", lang);
                         return params;
                     }
                 };

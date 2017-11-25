@@ -89,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
                                         User user = new User(
                                                 userInfo.getInt("id"),
                                                 userInfo.getString("username"),
-                                                userInfo.getString("email")
+                                                userInfo.getString("email"),
+                                                userInfo.getInt("lang")
                                         );
 
                                         SharedPrefManager

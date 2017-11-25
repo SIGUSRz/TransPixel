@@ -8,6 +8,7 @@ public class SharedPrefManager {
     private static final String KEY_USERNAME = "key_username";
     private static final String KEY_EMAIL = "key_email";
     private static final String KEY_ID = "key_id";
+    private static final String KEY_LANG = "key_lang";
 
     private static SharedPrefManager prefManager;
     private static Context ctx;
@@ -30,6 +31,14 @@ public class SharedPrefManager {
         editor.putInt(KEY_ID, user.getId());
         editor.putString(KEY_USERNAME, user.getUsername());
         editor.putString(KEY_EMAIL, user.getEmail());
+        editor.putInt(KEY_LANG, user.getLang());
+        editor.apply();
+    }
+
+    public void changeLang(int lang) {
+        SharedPreferences preferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(KEY_LANG, lang);
         editor.apply();
     }
 
@@ -43,7 +52,8 @@ public class SharedPrefManager {
         return new User(
                 preferences.getInt(KEY_ID, -1),
                 preferences.getString(KEY_USERNAME, null),
-                preferences.getString(KEY_EMAIL, null)
+                preferences.getString(KEY_EMAIL, null),
+                preferences.getInt(KEY_LANG, -1)
         );
     }
 

@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -30,17 +33,23 @@ public class PreviewActivity extends BaseActivity {
     String imagePath;
     Uri imageUri;
     Bitmap picture;
+    String language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         super.addContentView(R.layout.activity_preview, -1);
 
+        View view = findViewById(R.id.drawer_layout)
+                .findViewById(R.id.preview_content);
+
+        Spinner spinner = view.findViewById(R.id.locale_spinner);
+        if (spinner != null) {
+            createSpinner(spinner);
+        }
+
         imagePath = getIntent().getStringExtra("imagePath");
-        ImageView preview = findViewById(R.id.drawer_layout)
-                .findViewById(R.id.preview_appbar)
-                .findViewById(R.id.preview_content)
-                .findViewById(R.id.imagePreview);
+        ImageView preview = view.findViewById(R.id.imagePreview);
         if (imagePath != null) {
             picture = BitmapFactory.decodeFile(imagePath);
             preview.setImageBitmap(picture);
@@ -55,6 +64,25 @@ public class PreviewActivity extends BaseActivity {
         }
     }
 
+    public void createSpinner(final Spinner spinner) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.locale_array, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                language = parent.getItemAtPosition(position) + "";
+                SharedPrefManager.getInstance(PreviewActivity.this).changeLang(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                User user = SharedPrefManager.getInstance(PreviewActivity.this).getLoggedUser();
+                spinner.setSelection(user.getLang());
+                language = parent.getItemAtPosition(user.getLang()) + "";
+            }
+        });
+    }
 
     public void detectPhoto(View view) {
         StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_UPLOAD,
@@ -65,7 +93,7 @@ public class PreviewActivity extends BaseActivity {
                             JSONObject obj = new JSONObject(response);
 
                             if (!obj.has("error")) {
-                                JSONObject userInfo = obj.getJSONObject("result");
+                                JSONObject res = obj.getJSONObject("response");
                                 Intent dashboardIntent = new Intent(PreviewActivity.this,
                                         DashboardActivity.class);
                                 dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

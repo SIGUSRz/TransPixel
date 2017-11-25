@@ -44,11 +44,13 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 language = parent.getItemAtPosition(position) + "";
+                SharedPrefManager.getInstance(ProfileActivity.this).changeLang(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                spinner.setSelection(0);
-                language = parent.getItemAtPosition(0) + "";
+                User user = SharedPrefManager.getInstance(ProfileActivity.this).getLoggedUser();
+                spinner.setSelection(user.getLang());
+                language = parent.getItemAtPosition(user.getLang()) + "";
             }
         });
     }
