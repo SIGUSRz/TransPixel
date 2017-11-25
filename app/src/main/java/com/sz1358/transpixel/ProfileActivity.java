@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -40,6 +41,9 @@ public class ProfileActivity extends BaseActivity {
                 R.array.locale_array, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        User user = SharedPrefManager.getInstance(ProfileActivity.this).getLoggedUser();
+        spinner.setSelection(user.getLang());
+        language = adapter.getItem(user.getLang()) + "";
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -47,11 +51,7 @@ public class ProfileActivity extends BaseActivity {
                 SharedPrefManager.getInstance(ProfileActivity.this).changeLang(position);
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                User user = SharedPrefManager.getInstance(ProfileActivity.this).getLoggedUser();
-                spinner.setSelection(user.getLang());
-                language = parent.getItemAtPosition(user.getLang()) + "";
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 

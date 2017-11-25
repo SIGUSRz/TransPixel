@@ -69,18 +69,16 @@ public class PreviewActivity extends BaseActivity {
                 R.array.locale_array, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        User user = SharedPrefManager.getInstance(PreviewActivity.this).getLoggedUser();
+        spinner.setSelection(user.getLang());
+        language = adapter.getItem(user.getLang()) + "";
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 language = parent.getItemAtPosition(position) + "";
-                SharedPrefManager.getInstance(PreviewActivity.this).changeLang(position);
             }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                User user = SharedPrefManager.getInstance(PreviewActivity.this).getLoggedUser();
-                spinner.setSelection(user.getLang());
-                language = parent.getItemAtPosition(user.getLang()) + "";
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
