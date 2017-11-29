@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -71,7 +72,6 @@ public class PreviewActivity extends BaseActivity {
         spinner.setAdapter(adapter);
         User user = SharedPrefManager.getInstance(PreviewActivity.this).getLoggedUser();
         spinner.setSelection(user.getLang());
-        int temp = user.getLang();
         language = adapter.getItem(user.getLang()) + "";
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -115,7 +115,7 @@ public class PreviewActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(),
-                                "Request Error: " + error.getMessage(),
+                                VolleyErrorLogger.getMessage(error, getApplicationContext()),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }) {
@@ -127,6 +127,7 @@ public class PreviewActivity extends BaseActivity {
             }
         };
 
+        stringReq.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 1, 1.0f));
         VolleySingleton.getInstance(this).addToRequestQueue(stringReq);
     }
 

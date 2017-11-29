@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getApplicationContext(),
-                                        "Request Error: " + error.getMessage(),
+                                        VolleyErrorLogger.getMessage(error, getApplicationContext()),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }) {

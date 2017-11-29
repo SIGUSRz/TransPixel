@@ -28,6 +28,10 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="volleyTimeout">Server Response Time Out</string>
+    <string name="volleyNoConnection">No Connection to Network or Server</string>
+    <string name="volleyGenericError">Generic Volley Error</string>
+    <string name="volleyServerDown">Server Internal Error</string>
 
     <string-array name="locale_array">
         <item>English</item>
@@ -37,5 +41,7 @@
 
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
+
+
 
 </resources>
