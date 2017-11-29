@@ -53,7 +53,7 @@ public class SharedPrefManager {
                 preferences.getInt(KEY_ID, -1),
                 preferences.getString(KEY_USERNAME, null),
                 preferences.getString(KEY_EMAIL, null),
-                preferences.getInt(KEY_LANG, -1)
+                preferences.getInt(KEY_LANG, 0)
         );
     }
 

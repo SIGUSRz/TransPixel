@@ -71,6 +71,7 @@ public class PreviewActivity extends BaseActivity {
         spinner.setAdapter(adapter);
         User user = SharedPrefManager.getInstance(PreviewActivity.this).getLoggedUser();
         spinner.setSelection(user.getLang());
+        int temp = user.getLang();
         language = adapter.getItem(user.getLang()) + "";
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
