@@ -70,7 +70,7 @@ public class ProfileActivity extends BaseActivity {
     public void requestLogout(View view) {
         final SharedPrefManager prefManager = SharedPrefManager.getInstance(this);
         if (prefManager.isLogged()) {
-            StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_LOGIN,
+            StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_LOGOUT,
                     null,
                     new Response.ErrorListener() {
                         @Override
