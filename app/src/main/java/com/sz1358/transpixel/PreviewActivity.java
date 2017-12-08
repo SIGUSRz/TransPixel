@@ -32,6 +32,7 @@ public class PreviewActivity extends BaseActivity {
     String uriString;
     Bitmap picture;
     String language;
+    Integer position;
     SharedPrefManager prefManager;
 
     @Override
@@ -47,7 +48,6 @@ public class PreviewActivity extends BaseActivity {
             createSpinner(spinner);
         }
 
-        prefManager = SharedPrefManager.getInstance(PreviewActivity.this);
         Uri imageURI;
 
         if (savedInstanceState == null) {
@@ -65,15 +65,12 @@ public class PreviewActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putString("imageURI", uriString);
-        System.out.println("saved");
     }
 
     @Override
@@ -87,13 +84,16 @@ public class PreviewActivity extends BaseActivity {
                 R.array.locale_array, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        User user = SharedPrefManager.getInstance(PreviewActivity.this).getLoggedUser();
-        spinner.setSelection(user.getLang());
-        language = adapter.getItem(user.getLang()) + "";
+        prefManager = SharedPrefManager.getInstance(PreviewActivity.this);
+        User user = prefManager.getLoggedUser();
+        position = user.getLang();
+        spinner.setSelection(position);
+        language = spinner.getItemAtPosition(position) + "";
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 language = parent.getItemAtPosition(position) + "";
+                PreviewActivity.this.position = position;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -114,6 +114,8 @@ public class PreviewActivity extends BaseActivity {
                                 Intent resultIntent = new Intent(PreviewActivity.this,
                                         ResultActivity.class);
                                 resultIntent.putExtra("result", result);
+                                resultIntent.putExtra("language", language);
+                                resultIntent.putExtra("position", position);
                                 resultIntent.putExtra("imageURI", uriString);
                                 startActivity(resultIntent);
                             } else {

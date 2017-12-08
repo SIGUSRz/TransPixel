@@ -7,6 +7,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -47,7 +60,7 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 language = parent.getItemAtPosition(position) + "";
-                SharedPrefManager.getInstance(ProfileActivity.this).setLang(position);
+                SharedPrefManager.getInstance(ProfileActivity.this).setLang(position, language);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
@@ -55,7 +68,30 @@ public class ProfileActivity extends BaseActivity {
     }
 
     public void requestLogout(View view) {
-        if (SharedPrefManager.getInstance(this).isLogged()) {
+        final SharedPrefManager prefManager = SharedPrefManager.getInstance(this);
+        if (prefManager.isLogged()) {
+            StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_LOGIN,
+                    null,
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(),
+                                    VolleyErrorLogger.getMessage(error, getApplicationContext()),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    User user = prefManager.getLoggedUser();
+                    params.put("username", user.getUsername());
+                    params.put("id", Integer.toString(user.getId()));
+                    params.put("dict", prefManager.getDict());
+                    return params;
+                }
+            };
+
+            VolleySingleton.getInstance(this).addToRequestQueue(stringReq);
             SharedPrefManager.getInstance(this).logout();
             Intent dashboardIntent = new Intent(ProfileActivity.this, DashboardActivity.class);
             startActivity(dashboardIntent);

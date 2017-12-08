@@ -114,7 +114,6 @@ public class BaseActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
-            System.out.println("Base");
         }
     }
 

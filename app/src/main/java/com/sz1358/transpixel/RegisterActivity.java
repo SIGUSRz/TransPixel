@@ -115,6 +115,8 @@ public class RegisterActivity extends AppCompatActivity {
                 final String email = info[1];
                 final String password = info[2];
                 final String lang = info[3];
+                final SharedPrefManager prefManager = SharedPrefManager
+                        .getInstance(getApplicationContext());
                 StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_REGISTER,
                         new Response.Listener<String>() {
                             @Override
@@ -132,9 +134,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                 userInfo.getInt("lang")
                                         );
 
-                                        SharedPrefManager.
-                                                getInstance(getApplicationContext())
-                                                .userLogin(user);
+                                        prefManager.userLogin(user);
+                                        prefManager.setDict("[]");
 
                                         Intent dashboardIntent = new Intent(RegisterActivity.this,
                                                 DashboardActivity.class);

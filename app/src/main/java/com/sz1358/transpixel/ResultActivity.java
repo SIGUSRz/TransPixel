@@ -15,6 +15,10 @@ import java.io.InputStream;
 public class ResultActivity extends AppCompatActivity {
     TextView display;
     String uriString;
+    String result;
+    Integer position;
+    String language;
+    SharedPrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +27,14 @@ public class ResultActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        prefManager = SharedPrefManager.getInstance(ResultActivity.this);
         View view = findViewById(R.id.result_layout).findViewById(R.id.result_content);
         display = view.findViewById(R.id.result_slot);
-        String temp = R.string.hint_result + getIntent().getStringExtra("result");
-        display.setText(temp);
+        result = getIntent().getStringExtra("result");
+        display.setText(result);
+
+        position = getIntent().getIntExtra("position", 0);
+        language = getIntent().getStringExtra("language");
 
         uriString = getIntent().getStringExtra("imageURI");
         Uri imageURI = Uri.parse(uriString);
@@ -46,5 +54,10 @@ public class ResultActivity extends AppCompatActivity {
         startActivity(recoverIntent);
         finish();
         return true;
+    }
+
+    public void appendWord(View view) {
+        prefManager.updateDict(result, uriString, language);
+        System.out.println(prefManager.getDict());
     }
 }

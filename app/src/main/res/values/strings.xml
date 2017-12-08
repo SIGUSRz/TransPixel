@@ -43,7 +43,7 @@
     <item name="masked" type="id" />
     <string name="title_activity_result">ResultActivity</string>
     <string name="hint_result">Result:</string>
-    <string name="append_button">Add to Library</string>
+    <string name="append_button">Add to Dictionary</string>
 
 
 </resources>

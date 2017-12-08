@@ -72,6 +72,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.sz1358.transpixel.PreviewActivity" />
         </activity>
+        <activity android:name=".DictionaryActivity"></activity>
     </application>
 
 </manifest>

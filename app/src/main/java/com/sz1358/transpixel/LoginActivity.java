@@ -68,7 +68,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void requestLogin(View view) {
-        if (SharedPrefManager.getInstance(this).isLogged()) {
+        final SharedPrefManager prefManager = SharedPrefManager.getInstance(this);
+        if (prefManager.isLogged()) {
             Toast.makeText(getApplicationContext(), "You've Logged In",
                     Toast.LENGTH_SHORT).show();
         } else {
@@ -93,9 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                                                 userInfo.getInt("lang")
                                         );
 
-                                        SharedPrefManager
-                                                .getInstance(getApplicationContext())
-                                                .userLogin(user);
+                                        prefManager.userLogin(user);
+                                        prefManager.setDict(userInfo.getString("dict"));
 
                                         Intent dashboardIntent = new Intent(LoginActivity.this,
                                                 DashboardActivity.class);
