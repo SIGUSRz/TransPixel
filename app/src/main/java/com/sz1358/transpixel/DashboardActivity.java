@@ -1,10 +1,9 @@
 package com.sz1358.transpixel;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import java.util.Locale;
 public class DashboardActivity extends BaseActivity {
 
     Uri imgURI;
+    File imgFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +30,7 @@ public class DashboardActivity extends BaseActivity {
     public void takePhoto(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File imgFile = null;
+            imgFile = null;
             ContentValues values = new ContentValues();
             if (CLEAR_PERMISSION) {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA)
@@ -55,10 +55,17 @@ public class DashboardActivity extends BaseActivity {
     }
 
     public void loadPhoto(View view) {
-        Intent pickIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        pickIntent.setType("image/*");
-        startActivityForResult(Intent.createChooser(pickIntent, "select picture"),
-                ACTIVITY_CALL_GALLERY);
+        if (Build.VERSION.SDK_INT < 19) {
+            Intent pickIntent = new Intent(Intent.ACTION_GET_CONTENT);
+            pickIntent.setType("image/*");
+            startActivityForResult(Intent.createChooser(pickIntent, "select picture"),
+                    ACTIVITY_CALL_GALLERY);
+        } else {
+            Intent pickIntent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            pickIntent.addCategory(Intent.CATEGORY_OPENABLE);
+            pickIntent.setType("image/*");
+            startActivityForResult(pickIntent, ACTIVITY_CALL_GALLERY);
+        }
     }
 
     @Override
@@ -67,7 +74,8 @@ public class DashboardActivity extends BaseActivity {
             case ACTIVITY_CALL_CAMERA: {
                 if (resultCode == RESULT_OK) {
                     Intent intent = new Intent(DashboardActivity.this, PreviewActivity.class);
-                    intent.putExtra("imagePath", getAbsolutePath(this, imgURI));
+                    intent.putExtra("tag", "from_dashboard");
+                    intent.putExtra("imageURI", imgURI.toString());
                     startActivity(intent);
                     finish();
                 } else {
@@ -78,7 +86,8 @@ public class DashboardActivity extends BaseActivity {
             case ACTIVITY_CALL_GALLERY: {
                 if (resultCode == RESULT_OK) {
                     Intent intent = new Intent(DashboardActivity.this, PreviewActivity.class);
-                    intent.putExtra("imageUri", data.getDataString());
+                    intent.putExtra("imageURI", data.getDataString());
+                    intent.putExtra("tag", "from_dashboard");
                     startActivity(intent);
                     finish();
                 } else {
@@ -86,19 +95,5 @@ public class DashboardActivity extends BaseActivity {
                 }
             }
         }
-    }
-
-    // Return Absolute Path of the Image File
-    public String getAbsolutePath(Context context, Uri uri) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            int column_index = cursor.getColumnIndexOrThrow(projection[0]);
-            String result = cursor.getString(column_index);
-            cursor.close();
-            return result;
-        } else
-            return null;
     }
 }

@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -48,7 +47,7 @@ public class ProfileActivity extends BaseActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 language = parent.getItemAtPosition(position) + "";
-                SharedPrefManager.getInstance(ProfileActivity.this).changeLang(position);
+                SharedPrefManager.getInstance(ProfileActivity.this).setLang(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}

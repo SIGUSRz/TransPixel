@@ -35,7 +35,7 @@ public class SharedPrefManager {
         editor.apply();
     }
 
-    public void changeLang(int lang) {
+    public void setLang(int lang) {
         SharedPreferences preferences = ctx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(KEY_LANG, lang);

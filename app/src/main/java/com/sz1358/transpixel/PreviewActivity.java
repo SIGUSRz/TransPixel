@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,16 +24,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PreviewActivity extends BaseActivity {
-
-    String imagePath;
-    Uri imageUri;
+    String uriString;
     Bitmap picture;
     String language;
+    SharedPrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -49,20 +47,39 @@ public class PreviewActivity extends BaseActivity {
             createSpinner(spinner);
         }
 
-        imagePath = getIntent().getStringExtra("imagePath");
-        ImageView preview = view.findViewById(R.id.imagePreview);
-        if (imagePath != null) {
-            picture = BitmapFactory.decodeFile(imagePath);
-            preview.setImageBitmap(picture);
+        prefManager = SharedPrefManager.getInstance(PreviewActivity.this);
+        Uri imageURI;
+
+        if (savedInstanceState == null) {
+            uriString = getIntent().getStringExtra("imageURI");
+            imageURI = Uri.parse(uriString);
         } else {
-            imageUri = Uri.parse(getIntent().getStringExtra("imageUri"));
-            try {
-                picture = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                preview.setImageBitmap(picture);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            imageURI = Uri.parse(uriString);
         }
+
+        ImageView preview = view.findViewById(R.id.imagePreview);
+        try {
+            InputStream is = getContentResolver().openInputStream(imageURI);
+            picture = BitmapFactory.decodeStream(is);
+            preview.setImageBitmap(picture);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putString("imageURI", uriString);
+        System.out.println("saved");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        uriString = savedInstanceState.getString("imageURI", uriString);
     }
 
     public void createSpinner(final Spinner spinner) {
@@ -93,12 +110,12 @@ public class PreviewActivity extends BaseActivity {
 
                             if (!obj.has("error")) {
                                 JSONObject res = obj.getJSONObject("response");
-                                Intent dashboardIntent = new Intent(PreviewActivity.this,
-                                        DashboardActivity.class);
-                                dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                        Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(dashboardIntent);
-                                finish();
+                                String result = res.getString("result");
+                                Intent resultIntent = new Intent(PreviewActivity.this,
+                                        ResultActivity.class);
+                                resultIntent.putExtra("result", result);
+                                resultIntent.putExtra("imageURI", uriString);
+                                startActivity(resultIntent);
                             } else {
                                 Toast.makeText(getApplicationContext(),
                                         obj.getString("error"), Toast.LENGTH_SHORT).show();
