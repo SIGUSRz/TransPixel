@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity
         TextView header_email = header.findViewById(R.id.userEmail);
 
         Menu menu = navigationView.getMenu();
-        int[] restrictItems = {R.id.nav_profile, R.id.nav_profile};
+        int[] restrictItems = {R.id.nav_profile, R.id.nav_dictionary};
         int[] freeItems = {R.id.nav_login};
 
         if (SharedPrefManager.getInstance(this).isLogged()) {

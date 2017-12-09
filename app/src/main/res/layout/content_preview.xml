@@ -54,11 +54,20 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/button_top"
+        android:id="@+id/lang_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85"
+        tools:layout_editor_absoluteY="482dp"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/button_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9"
         tools:layout_editor_absoluteY="482dp"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -84,7 +93,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/left_guideline"
         app:layout_constraintTop_toTopOf="@+id/photoDisplay_down"
         app:layout_constraintRight_toLeftOf="@+id/splitter"
-        app:layout_constraintBottom_toTopOf="@+id/button_top"/>
+        app:layout_constraintBottom_toTopOf="@+id/lang_bottom"/>
 
     <Spinner
         android:id="@+id/locale_spinner"
@@ -94,6 +103,31 @@
         tools:layout_editor_absoluteX="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/splitter"
         app:layout_constraintTop_toTopOf="@+id/photoDisplay_down"
+        app:layout_constraintRight_toLeftOf="@+id/right_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/lang_bottom"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="@string/hint_method"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/left_guideline"
+        app:layout_constraintTop_toTopOf="@+id/lang_bottom"
+        app:layout_constraintRight_toLeftOf="@+id/splitter"
+        app:layout_constraintBottom_toTopOf="@+id/button_top"/>
+
+
+    <Spinner
+        android:id="@+id/method_spinner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/splitter"
+        app:layout_constraintTop_toTopOf="@+id/lang_bottom"
         app:layout_constraintRight_toLeftOf="@+id/right_guideline"
         app:layout_constraintBottom_toTopOf="@+id/button_top"/>
 

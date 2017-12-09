@@ -33,6 +33,7 @@ public class PreviewActivity extends BaseActivity {
     Bitmap picture;
     String language;
     Integer position;
+    Integer method;
     SharedPrefManager prefManager;
 
     @Override
@@ -43,9 +44,11 @@ public class PreviewActivity extends BaseActivity {
         View view = findViewById(R.id.drawer_layout)
                 .findViewById(R.id.preview_content);
 
-        Spinner spinner = view.findViewById(R.id.locale_spinner);
-        if (spinner != null) {
-            createSpinner(spinner);
+        Spinner lang_spinner = view.findViewById(R.id.locale_spinner);
+        Spinner method_spinner = view.findViewById(R.id.method_spinner);
+        if (lang_spinner != null) {
+            createLangSpinner(lang_spinner);
+            createMethodSpinner(method_spinner);
         }
 
         Uri imageURI;
@@ -79,7 +82,7 @@ public class PreviewActivity extends BaseActivity {
         uriString = savedInstanceState.getString("imageURI", uriString);
     }
 
-    public void createSpinner(final Spinner spinner) {
+    public void createLangSpinner(final Spinner spinner) {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.locale_array, android.R.layout.simple_spinner_dropdown_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -100,8 +103,26 @@ public class PreviewActivity extends BaseActivity {
         });
     }
 
+    public void createMethodSpinner(final Spinner spinner) {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.method_array, android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        method = 0;
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                method = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
     public void detectPhoto(View view) {
-        StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_UPLOAD,
+        String url = method == 0 ? URLs.URL_OCR_UPLOAD : URLs.URL_DETECT_UPLOAD;
+        StringRequest stringReq = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -116,6 +137,7 @@ public class PreviewActivity extends BaseActivity {
                                 resultIntent.putExtra("result", result);
                                 resultIntent.putExtra("language", language);
                                 resultIntent.putExtra("position", position);
+                                resultIntent.putExtra("method", method);
                                 resultIntent.putExtra("imageURI", uriString);
                                 startActivity(resultIntent);
                             } else {
@@ -142,6 +164,7 @@ public class PreviewActivity extends BaseActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 params.put("image", prepareImage(picture));
+                params.put("method", Integer.toString(method));
                 return params;
             }
         };

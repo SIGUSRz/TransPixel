@@ -39,6 +39,11 @@
         <item>Spanish</item>
     </string-array>
 
+    <string-array name="method_array">
+        <item>OCR</item>
+        <item>Object Detection</item>
+    </string-array>
+
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <string name="title_activity_result">ResultActivity</string>
@@ -46,6 +51,9 @@
     <string name="append_button">Add to Dictionary</string>
     <string name="nav_item_dictionary">Dictionary</string>
     <string name="appendSuccess">Added to Dictionary</string>
+    <string name="ocr">OCR</string>
+    <string name="detect">Obj Detection</string>
+    <string name="hint_method">Method:</string>
 
 
 </resources>
