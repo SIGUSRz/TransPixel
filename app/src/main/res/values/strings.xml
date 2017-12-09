@@ -44,6 +44,7 @@
     <string name="title_activity_result">ResultActivity</string>
     <string name="hint_result">Result:</string>
     <string name="append_button">Add to Dictionary</string>
+    <string name="nav_item_dictionary">Dictionary</string>
 
 
 </resources>

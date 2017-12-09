@@ -1,10 +1,12 @@
 package com.sz1358.transpixel;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +59,35 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void appendWord(View view) {
-        prefManager.updateDict(result, uriString, language);
-        System.out.println(prefManager.getDict());
+        if (prefManager.isLogged()) {
+            prefManager.updateDict(result, uriString, language);
+        } else {
+            showCustomDialog();
+        }
+    }
+
+    private void showCustomDialog() {
+        String message = "Log In to Unlock the Dictionary Function!";
+        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE: {
+                        Intent loginIntent = new Intent(ResultActivity.this, LoginActivity.class);
+                        startActivity(loginIntent);
+                        break;
+                    }
+                    case DialogInterface.BUTTON_NEGATIVE: {
+                        break;
+                    }
+                }
+            }
+        };
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", listener)
+                .setNegativeButton("Cancel", listener)
+                .create()
+                .show();
     }
 }

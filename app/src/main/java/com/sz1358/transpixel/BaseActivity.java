@@ -70,7 +70,7 @@ public class BaseActivity extends AppCompatActivity
         TextView header_email = header.findViewById(R.id.userEmail);
 
         Menu menu = navigationView.getMenu();
-        int[] restrictItems = {R.id.nav_profile};
+        int[] restrictItems = {R.id.nav_profile, R.id.nav_profile};
         int[] freeItems = {R.id.nav_login};
 
         if (SharedPrefManager.getInstance(this).isLogged()) {
@@ -145,6 +145,16 @@ public class BaseActivity extends AppCompatActivity
                 } else {
                     Intent profileIntent = new Intent(BaseActivity.this, ProfileActivity.class);
                     startActivity(profileIntent);
+                    finish();
+                }
+                break;
+            case R.id.nav_dictionary:
+                if (!SharedPrefManager.getInstance(this).isLogged()) {
+                    Intent loginIntent = new Intent(BaseActivity.this, LoginActivity.class);
+                    startActivity(loginIntent);
+                } else {
+                    Intent dictionaryIntent = new Intent(BaseActivity.this, DictionaryActivity.class);
+                    startActivity(dictionaryIntent);
                     finish();
                 }
                 break;
