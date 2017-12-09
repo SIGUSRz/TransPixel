@@ -26,4 +26,12 @@ public class Tuple {
     public void setUri(String temp) {
         uri = temp;
     }
+
+    public String getLangString() {
+        return langString;
+    }
+
+    public void setLangString(String temp) {
+        langString = temp;
+    }
 }

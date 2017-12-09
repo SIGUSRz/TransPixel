@@ -55,9 +55,9 @@ public class SharedPrefManager {
         Gson gson = new Gson();
         Tuple tuple = new Tuple(word, uri, language);
         String dict = preferences.getString(KEY_DICT, null);
-        System.out.println(dict);
-        if (dict == null) { dict = "[]"; }
-        dict = new StringBuilder(dict).insert(dict.length() - 1, gson.toJson(tuple)).toString();
+        if (dict == null) { return; }
+        String division = dict.equals("[]") ? "" : ",";
+        dict = new StringBuilder(dict).insert(dict.length() - 1, division + gson.toJson(tuple)).toString();
         editor.putString(KEY_DICT, dict);
         editor.apply();
     }
