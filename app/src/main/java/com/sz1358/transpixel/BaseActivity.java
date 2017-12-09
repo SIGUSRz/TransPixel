@@ -132,7 +132,7 @@ public class BaseActivity extends AppCompatActivity
             case R.id.nav_login:
                 if (SharedPrefManager.getInstance(this).isLogged()) {
                     Toast.makeText(getApplicationContext(),
-                            "You've logged in", Toast.LENGTH_SHORT).show();
+                            "You've logged in", Toast.LENGTH_LONG).show();
                 } else {
                     Intent loginIntent = new Intent(BaseActivity.this, LoginActivity.class);
                     startActivity(loginIntent);

@@ -107,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void requestRegister(View view) {
         if (SharedPrefManager.getInstance(this).isLogged()) {
-            Toast.makeText(getApplicationContext(), "You've Logged In", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "You've Logged In", Toast.LENGTH_LONG).show();
         } else {
             String[] info = returnInfo();
             if (info != null) {
@@ -145,12 +145,12 @@ public class RegisterActivity extends AppCompatActivity {
                                         finish();
                                     } else {
                                         Toast.makeText(getApplicationContext(),
-                                                obj.getString("error"), Toast.LENGTH_SHORT).show();
+                                                obj.getString("error"), Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
                                     Toast.makeText(getApplicationContext(),
                                             "Response Error: " + e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
+                                            Toast.LENGTH_LONG).show();
                                 }
 
                             }
@@ -160,7 +160,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getApplicationContext(),
                                         VolleyErrorLogger.getMessage(error, getApplicationContext()),
-                                        Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override

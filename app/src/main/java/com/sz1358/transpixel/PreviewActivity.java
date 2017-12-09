@@ -120,12 +120,12 @@ public class PreviewActivity extends BaseActivity {
                                 startActivity(resultIntent);
                             } else {
                                 Toast.makeText(getApplicationContext(),
-                                        obj.getString("error"), Toast.LENGTH_SHORT).show();
+                                        obj.getString("error"), Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             Toast.makeText(getApplicationContext(),
                                     "Response Error: " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -135,7 +135,7 @@ public class PreviewActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getApplicationContext(),
                                 VolleyErrorLogger.getMessage(error, getApplicationContext()),
-                                Toast.LENGTH_SHORT).show();
+                                Toast.LENGTH_LONG).show();
                     }
                 }) {
             @Override

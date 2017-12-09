@@ -34,7 +34,7 @@ public class VolleyErrorLogger {
         else if (isNetworkProblem(error)) {
             return context.getResources().getString(R.string.volleyNoConnection);
         }
-        return context.getResources().getString(R.string.volleyGenericError);
+        return error.toString();
     }
 
     /**
@@ -92,6 +92,6 @@ public class VolleyErrorLogger {
                     return context.getResources().getString(R.string.volleyServerDown);
             }
         }
-        return context.getResources().getString(R.string.volleyGenericError);
+        return "Unhandled Error";
     }
 }

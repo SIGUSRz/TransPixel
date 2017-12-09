@@ -68,21 +68,46 @@ public class ProfileActivity extends BaseActivity {
     }
 
     public void requestLogout(View view) {
-        final SharedPrefManager prefManager = SharedPrefManager.getInstance(this);
+        final SharedPrefManager prefManager = SharedPrefManager.getInstance(ProfileActivity.this);
         if (prefManager.isLogged()) {
             StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_LOGOUT,
-                    null,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject obj = new JSONObject(response);
+
+                                if (!obj.has("error")) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Logged Out", Toast.LENGTH_LONG).show();
+                                    SharedPrefManager.getInstance(ProfileActivity.this).logout();
+                                    Intent dashboardIntent = new Intent(ProfileActivity.this, DashboardActivity.class);
+                                    startActivity(dashboardIntent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            obj.getString("error"), Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Response Error: " + e.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Toast.makeText(getApplicationContext(),
                                     VolleyErrorLogger.getMessage(error, getApplicationContext()),
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                         }
                     }) {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
+                    SharedPrefManager prefManager = SharedPrefManager.getInstance(ProfileActivity.this);
                     User user = prefManager.getLoggedUser();
                     params.put("username", user.getUsername());
                     params.put("id", Integer.toString(user.getId()));
@@ -92,10 +117,6 @@ public class ProfileActivity extends BaseActivity {
             };
 
             VolleySingleton.getInstance(this).addToRequestQueue(stringReq);
-            SharedPrefManager.getInstance(this).logout();
-            Intent dashboardIntent = new Intent(ProfileActivity.this, DashboardActivity.class);
-            startActivity(dashboardIntent);
-            finish();
         }
     }
 }

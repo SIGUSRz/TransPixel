@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     public void showRegister(View view) {
         if (SharedPrefManager.getInstance(this).isLogged()) {
             Toast.makeText(getApplicationContext(), "You've Logged In",
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_LONG).show();
         } else {
             Intent registerIntent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(registerIntent);
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         final SharedPrefManager prefManager = SharedPrefManager.getInstance(this);
         if (prefManager.isLogged()) {
             Toast.makeText(getApplicationContext(), "You've Logged In",
-                    Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_LONG).show();
         } else {
             String[] info = returnInfo();
             if (info != null) {
@@ -105,12 +105,12 @@ public class LoginActivity extends AppCompatActivity {
                                         finish();
                                     } else {
                                         Toast.makeText(getApplicationContext(),
-                                                obj.getString("error"), Toast.LENGTH_SHORT).show();
+                                                obj.getString("error"), Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
                                     Toast.makeText(getApplicationContext(),
                                             "Response Error: " + e.getMessage(),
-                                            Toast.LENGTH_SHORT).show();
+                                            Toast.LENGTH_LONG).show();
                                 }
 
                             }
@@ -120,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                             public void onErrorResponse(VolleyError error) {
                                 Toast.makeText(getApplicationContext(),
                                         VolleyErrorLogger.getMessage(error, getApplicationContext()),
-                                        Toast.LENGTH_SHORT).show();
+                                        Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override

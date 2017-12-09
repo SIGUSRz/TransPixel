@@ -41,7 +41,7 @@ public class DashboardActivity extends BaseActivity {
                         .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 imgFile = new File(output, fileName);
             } else {
-                Toast.makeText(this, "File Write Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "File Write Permission Denied", Toast.LENGTH_LONG).show();
             }
             if (imgFile != null && CLEAR_PERMISSION) {
                 imgURI = getContentResolver()
@@ -49,7 +49,7 @@ public class DashboardActivity extends BaseActivity {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imgURI);
                 startActivityForResult(takePictureIntent, ACTIVITY_CALL_CAMERA);
             } else {
-                Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -79,7 +79,7 @@ public class DashboardActivity extends BaseActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(this, "Camera Call Cancelled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Camera Call Cancelled", Toast.LENGTH_LONG).show();
                 }
                 break;
             }
@@ -91,7 +91,7 @@ public class DashboardActivity extends BaseActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Toast.makeText(this, "Load Gallery Crash", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Load Gallery Crash", Toast.LENGTH_LONG).show();
                 }
             }
         }
