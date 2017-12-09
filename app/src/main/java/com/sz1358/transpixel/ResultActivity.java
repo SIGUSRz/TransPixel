@@ -6,10 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.io.InputStream;
@@ -61,6 +63,12 @@ public class ResultActivity extends AppCompatActivity {
     public void appendWord(View view) {
         if (prefManager.isLogged()) {
             prefManager.updateDict(result, uriString, language);
+            Button button = findViewById(R.id.result_layout)
+                    .findViewById(R.id.result_content)
+                    .findViewById(R.id.appendButton);
+            button.setText(R.string.appendSuccess);
+            button.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorSuccess));
+            button.setClickable(false);
         } else {
             showCustomDialog();
         }
