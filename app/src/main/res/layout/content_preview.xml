@@ -85,6 +85,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/lang_hint"
         android:padding="10dp"
         android:text="@string/hint_locale"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
@@ -96,7 +97,7 @@
         app:layout_constraintBottom_toTopOf="@+id/lang_bottom"/>
 
     <Spinner
-        android:id="@+id/locale_spinner"
+        android:id="@+id/lang_spinner"
         android:layout_width="0dp"
         android:layout_height="0dp"
         tools:layout_editor_absoluteY="8dp"

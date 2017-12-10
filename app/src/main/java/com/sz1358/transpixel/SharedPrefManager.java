@@ -15,6 +15,11 @@ public class SharedPrefManager {
     private static final String KEY_LANG = "key_lang";
     private static final String KEY_LANGSTRING = "key_langstring";
     private static final String KEY_DICT = "key_dict";
+    private ArrayList<String> langMap = new ArrayList<String>() {{
+        add("en");
+        add("zh-CN");
+        add("ja");
+    }};
 
     private static SharedPrefManager prefManager;
     private static Context ctx;
@@ -39,6 +44,10 @@ public class SharedPrefManager {
         editor.putString(KEY_EMAIL, user.getEmail());
         editor.putInt(KEY_LANG, user.getLang());
         editor.apply();
+    }
+
+    public String mapLang(Integer lang) {
+        return langMap.get(lang);
     }
 
     public void setLang(int lang, String langString) {

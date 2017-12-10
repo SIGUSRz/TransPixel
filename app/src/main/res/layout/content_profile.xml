@@ -147,7 +147,7 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
             <Spinner
-                android:id="@+id/locale_spinner"
+                android:id="@+id/lang_spinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
         </TableRow>

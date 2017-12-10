@@ -33,7 +33,7 @@ public class ProfileActivity extends BaseActivity {
         View view = findViewById(R.id.drawer_layout)
                 .findViewById(R.id.register_content);
 
-        Spinner spinner = view.findViewById(R.id.locale_spinner);
+        Spinner spinner = view.findViewById(R.id.lang_spinner);
         if (spinner != null) {
             createSpinner(spinner);
         }

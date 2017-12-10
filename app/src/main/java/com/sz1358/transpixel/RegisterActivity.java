@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Patterns;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         View view = findViewById(R.id.register_layout)
                 .findViewById(R.id.register_content);
 
-        Spinner spinner = view.findViewById(R.id.locale_spinner);
+        Spinner spinner = view.findViewById(R.id.lang_spinner);
         if (spinner != null) {
             createSpinner(spinner);
         }

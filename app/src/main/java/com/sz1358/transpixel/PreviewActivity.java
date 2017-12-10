@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -44,7 +45,7 @@ public class PreviewActivity extends BaseActivity {
         View view = findViewById(R.id.drawer_layout)
                 .findViewById(R.id.preview_content);
 
-        Spinner lang_spinner = view.findViewById(R.id.locale_spinner);
+        Spinner lang_spinner = view.findViewById(R.id.lang_spinner);
         Spinner method_spinner = view.findViewById(R.id.method_spinner);
         if (lang_spinner != null) {
             createLangSpinner(lang_spinner);
@@ -110,14 +111,36 @@ public class PreviewActivity extends BaseActivity {
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
         method = 0;
+        displaySpinner(method);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 method = position;
+                displaySpinner(position);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
+
+    public void displaySpinner(int pos) {
+        View view = findViewById(R.id.drawer_layout)
+                .findViewById(R.id.preview_appbar)
+                .findViewById(R.id.preview_content);
+        if (pos == 0) {
+            TextView tag = view.findViewById(R.id.lang_hint);
+            Spinner lang_spinner = view.findViewById(R.id.lang_spinner);
+            tag.setVisibility(View.GONE);
+            lang_spinner.setVisibility(View.GONE);
+            lang_spinner.setEnabled(false);
+        } else {
+            TextView tag = view.findViewById(R.id.lang_hint);
+            Spinner lang_spinner = view.findViewById(R.id.lang_spinner);
+            tag.setVisibility(View.VISIBLE);
+            lang_spinner.setVisibility(View.VISIBLE);
+            lang_spinner.setEnabled(true);
+        }
+
     }
 
     public void detectPhoto(View view) {
@@ -165,6 +188,7 @@ public class PreviewActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("image", prepareImage(picture));
                 params.put("method", Integer.toString(method));
+                params.put("lang", prefManager.mapLang(position));
                 return params;
             }
         };
