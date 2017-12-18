@@ -12,9 +12,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Created by xxx on 18/12/2017.
- *
  */
-
 @RunWith(MockitoJUnitRunner.class)
 public class LoginPresenterTest {
     @Mock

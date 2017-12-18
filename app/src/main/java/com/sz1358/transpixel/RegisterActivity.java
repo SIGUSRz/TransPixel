@@ -17,6 +17,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.sz1358.transpixel.register.RegisterPresenter;
+import com.sz1358.transpixel.register.RegisterService;
+import com.sz1358.transpixel.register.RegisterView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,11 +27,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements RegisterView {
 
     EditText registUsername, registEmail, registPassword;
     String language;
     int langIdx;
+    private RegisterPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        presenter = new RegisterPresenter(this, new RegisterService());
     }
 
     public void createSpinner(final Spinner spinner) {
@@ -109,6 +114,7 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             String[] info = returnInfo();
             if (info != null) {
+                presenter.requestRegister();
                 final String username = info[0];
                 final String email = info[1];
                 final String password = info[2];
@@ -184,5 +190,49 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(loginIntent);
             finish();
         }
+    }
+
+    @Override
+    public String getUsername() {
+        return registUsername.getText().toString().trim();
+    }
+
+    @Override
+    public void showUsernameError(int resId) {
+        registUsername.setError(getString(resId));
+    }
+
+    @Override
+    public String getPassword() {
+        return registPassword.getText().toString().trim();
+    }
+
+    @Override
+    public void showPasswordError(int resId) {
+        registPassword.setError(getString(resId));
+    }
+
+    @Override
+    public String getEmail() {
+        return registEmail.getText().toString().trim();
+    }
+
+    @Override
+    public void showEmailError(int resId) {
+        registEmail.setError(getString(resId));
+    }
+
+    @Override
+    public void startMainActivity() {
+        Intent dashboardIntent = new Intent(RegisterActivity.this,
+                DashboardActivity.class);
+        dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(dashboardIntent);
+    }
+
+    @Override
+    public void showRegisterError(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_SHORT).show();
     }
 }

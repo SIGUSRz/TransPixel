@@ -57,6 +57,8 @@
     <string name="username_error">Username_error</string>
     <string name="password_error">Password_error</string>
     <string name="login_failed">Login</string>
+    <string name="email_error">Email_error</string>
+    <string name="register_failed">Register_failed</string>
 
 
 </resources>
