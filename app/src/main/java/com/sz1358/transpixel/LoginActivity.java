@@ -3,8 +3,6 @@ package com.sz1358.transpixel;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,9 +19,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     EditText loginUsername, loginPassword;
+    private LoginPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        presenter = new LoginPresenter(this, new LoginService());
     }
 
     public void showRegister(View view) {
@@ -52,17 +52,17 @@ public class LoginActivity extends AppCompatActivity {
         final String username = loginUsername.getText().toString().trim();
         final String password = loginPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(username)) {
-            loginUsername.setError("Please Enter Username");
-            loginUsername.requestFocus();
-            return null;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            loginPassword.setError("Please Enter a Password");
-            loginPassword.requestFocus();
-            return null;
-        }
+//        if (TextUtils.isEmpty(username)) {
+//            loginUsername.setError("Please Enter Username");
+//            loginUsername.requestFocus();
+//            return null;
+//        }
+//
+//        if (TextUtils.isEmpty(password)) {
+//            loginPassword.setError("Please Enter a Password");
+//            loginPassword.requestFocus();
+//            return null;
+//        }
 
         return new String[]{username, password};
     }
@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             String[] info = returnInfo();
             if (info != null) {
+                presenter.requestLogin();
                 final String username = info[0];
                 final String password = info[1];
                 StringRequest stringReq = new StringRequest(Request.Method.POST, URLs.URL_LOGIN,
@@ -137,4 +138,37 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public String getUsername() {
+        return loginUsername.getText().toString().trim();
+    }
+
+    @Override
+    public void showUsernameError(int resId) {
+        loginUsername.setError(getString(resId));
+    }
+
+    @Override
+    public String getPassword() {
+        return loginPassword.getText().toString().trim();
+    }
+
+    @Override
+    public void showPasswordError(int resId) {
+        loginPassword.setError(getString(resId));
+    }
+
+    @Override
+    public void startMainActivity() {
+        Intent dashboardIntent = new Intent(LoginActivity.this,
+                DashboardActivity.class);
+        dashboardIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(dashboardIntent);
+    }
+
+    @Override
+    public void showLoginError(int resId) {
+        Toast.makeText(this, getString(resId), Toast.LENGTH_LONG).show();
+    }
 }

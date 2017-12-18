@@ -54,6 +54,9 @@
     <string name="ocr">OCR</string>
     <string name="detect">Obj Detection</string>
     <string name="hint_method">Method:</string>
+    <string name="username_error">Username_error</string>
+    <string name="password_error">Password_error</string>
+    <string name="login_failed">Login</string>
 
 
 </resources>

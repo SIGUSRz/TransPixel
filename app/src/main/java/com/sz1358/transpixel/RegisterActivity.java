@@ -37,7 +37,6 @@ public class RegisterActivity extends AppCompatActivity {
 
         View view = findViewById(R.id.register_layout)
                 .findViewById(R.id.register_content);
-
         Spinner spinner = view.findViewById(R.id.lang_spinner);
         if (spinner != null) {
             createSpinner(spinner);
